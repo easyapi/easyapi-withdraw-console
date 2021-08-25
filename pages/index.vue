@@ -3,13 +3,13 @@
 </template>
 
 <script>
-  export default {
-    name: 'index',
-    middleware({ store, route, redirect, params, query, req, res }) {
-      // 默认跳转页面的路由
-      redirect('/withdraws/list')
-    }
+export default {
+  name: 'index',
+  middleware({ store, route, redirect, params, query, req, res }) {
+    // 默认跳转页面的路由
+    redirect('/list')
   }
+}
 </script>
 
 <style></style>

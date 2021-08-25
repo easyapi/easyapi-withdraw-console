@@ -3,25 +3,18 @@ module.exports = {
    ** Headers of the page
    */
   head: {
-    title: '{{ name }} - EasyAPI发票管理',
+    title: '{{ name }} - EasyAPI快速提现',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      {
-        hid: 'description',
-        name: 'description',
-        content: '{{escape description }}'
-      }
+      { hid: 'description', name: 'description', content: '{{escape description }}' }
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     script: []
   },
   css: [
     '@/assets/scss/common.scss',
-    '@/assets/scss/element-variables.scss',
-    'quill/dist/quill.snow.css',
-    'quill/dist/quill.bubble.css',
-    'quill/dist/quill.core.css'
+    '@/assets/scss/element-variables.scss'
   ],
   plugins: [
     '@/plugins/element-ui',
@@ -30,8 +23,7 @@ module.exports = {
     '@/plugins/router',
     '@/plugins/is-chinese-phone-number',
     '@/plugins/is-email',
-    { src: '@/plugins/common.js', ssr: false },
-    { src: '@/plugins/v-distpiceker.js', ssr: false }
+    { src: '@/plugins/common.js', ssr: false }
   ],
   /*
    ** Customize the progress bar color
@@ -49,7 +41,7 @@ module.exports = {
    ** Build configuration
    */
   build: {
-    transpile: [/^element-ui/, 'vue-quill-editor', 'v-distpicker'],
+    transpile: [/^element-ui/],
     extend(config, ctx) {
     },
     maxChunkSize: 300000, // 单个包最大尺寸
@@ -59,7 +51,7 @@ module.exports = {
     port: 3000
   },
   env: {
-    baseUrl: 'https://api2.easyapi.com',
+    baseUrl: 'https://api.easyapi.com',
     accountUrl: 'https://account-api.easyapi.com'
   }
 }
