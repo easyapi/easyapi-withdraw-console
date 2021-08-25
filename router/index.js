@@ -3,6 +3,12 @@ const routers = [
     title: '快速提现',
     children: [
       {
+        title: '概要统计',
+        path: '/withdraws/summary',
+        icon: 'el-icon-s-help',
+        children: []
+      },
+      {
         title: '提现列表',
         path: '/list',
         icon: 'el-icon-s-help',
