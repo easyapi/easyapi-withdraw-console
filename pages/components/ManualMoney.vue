@@ -7,16 +7,6 @@
       <el-form-item label='提现金额：'>
         972.00
       </el-form-item>
-      <el-form-item label='支付通道：'>
-        <el-select v-model='value' placeholder='请选择支付通道'>
-          <el-option
-            v-for='item in accountType'
-            :key='item.value'
-            :label='item.label'
-            :value='item.value'>
-          </el-option>
-        </el-select>
-      </el-form-item>
       <el-form-item label='备注：'>
         <el-input
           type='textarea'
@@ -34,20 +24,15 @@
 </template>
 
 <script>
-export default {
-  name: 'ManualMoney',
-  data() {
-    return {
-      dialogVisible: false,
-      accountType: [
-        { value: '支付宝', label: '支付宝' },
-        { value: '微信', label: '微信' },
-        { value: '银行卡', label: '银行卡' }
-      ],
-      remark: ''
+  export default {
+    name: 'ManualMoney',
+    data() {
+      return {
+        dialogVisible: false,
+        remark: ''
+      }
     }
   }
-}
 </script>
 
 <style scoped>
