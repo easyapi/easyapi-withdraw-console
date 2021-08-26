@@ -6,6 +6,9 @@ import SearchArea from '../../components/SearchArea'
 import ManualMoney from '../components/ManualMoney'
 import ShowDetails from '../components/showDetails'
 
+import { getList } from '../../api/withdraw'
+
+
 export default {
   name: 'index',
   components: {
@@ -180,18 +183,59 @@ export default {
         this.endTime = ''
       }
     },
+    handleRowChange(selection) {
+      this.row = selection
+      this.invoiceIds = []
+      
+    },
+    getDataList(data) {
+      this.loading = true;
+      if (data === 1) {
+        let params = {
+          page: 0,
+          size: this.pagination.size,
+        };
+        getList(params,this).then(res => {
+          if (res.code === 1) {
+            this.tableData = res.content
+            this.pagination.total = res.totalElements;
+          } else if (res.code == 0) {
+            this.tableData = [];
+            this.pagination.total = 0;
+          }
+          this.loading = false;
+        })
+      } else {
+        let params = {
+          page: this.pagination.page - 1,
+          size: this.pagination.size,
+        };
+        getList(params,this).then(res => {
+          if (res.code === 1) {
+            this.tableData = res.content
+            this.pagination.total = res.totalElements;
+          } else if (res.code == 0) {
+            this.tableData = [];
+            this.pagination.total = 0;
+          }
+          this.loading = false;
+        })
+      }
+    },
     //分页
     fatherSize(data) {
-      this.pagination.size = data
+      this.pagination.size = data;
+      this.getDataList();
     },
     fatherCurrent(data) {
-      this.pagination.page = data
-    }
-  }
-  ,
+      this.pagination.page = data;
+      this.getDataList();
+    },
+  },
   mounted() {
-    this.showHeader = this.theme.showHeader
-    this.getAccountType()
-    this.getState()
+    this.showHeader = this.theme.showHeader;
+    this.getAccountType();
+    this.getState();
+    this.getDataList();
   }
 }
