@@ -20,61 +20,66 @@
 </template>
 
 <script>
-import Cookies from 'js-cookie'
+  import Cookies from 'js-cookie'
 
-export default {
-  name: 'Header',
-  components: {},
-  data() {
-    return {
-      title: '',
-      showHeader: true,
-      isActive: true
-    }
-  },
-  methods: {
-    handleCommand(command) {
-      if (command === 'quitLogin') {
-        Cookies.remove('fpAuthToken', 'userInfo')
-        this.$router.push(`/login`)
+  export default {
+    name: 'Header',
+    components: {},
+    data() {
+      return {
+        title: '',
+        showHeader: true,
+        isActive: true
       }
+    },
+    methods: {
+      handleCommand(command) {
+        if (command === 'quitLogin') {
+          Cookies.remove('fpAuthToken', 'userInfo')
+          this.$router.push(`/login`)
+        }
+      }
+    },
+    mounted() {
+      this.showHeader = this.theme.showHeader
+      this.title = this.theme.title
     }
-  },
-  mounted() {
-    this.showHeader = this.theme.showHeader
-    this.title = this.theme.title
   }
-}
 </script>
 
 <style lang='scss' scoped>
-.header {
-  width: 100%;
-  background: $-header-bgColor;
-  height: 50px;
-  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.1);
-}
+  .header {
+    width: 100%;
+    background: $-header-bgColor;
+    height: 50px;
+    box-shadow: 0 1px 4px rgba(0, 21, 41, 0.1);
+  }
 
-.header-title {
-  width: 100%;
-  height: 100%;
-  padding: 0 30px 0 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  .logo {
+  .header-title {
+    width: 100%;
+    height: 100%;
+    padding: 0 30px 0 10px;
     display: flex;
+    justify-content: space-between;
     align-items: center;
+
+    .logo {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 26px;
+        height: 26px;
+      }
+    }
+
+    p {
+      margin: 0 0 0 10px;
+      color: $-header-color;
+    }
   }
 
-  p {
-    margin: 0 0 0 10px;
-    color: $-header-color;
+  .el-submenu__title i {
+    color: #000;
   }
-}
-
-.el-submenu__title i {
-  color: #000;
-}
 </style>
