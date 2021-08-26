@@ -6,7 +6,7 @@ import SearchArea from '../../components/SearchArea'
 import ManualMoney from '../components/ManualMoney'
 import ShowDetails from '../components/showDetails'
 
-import { getList } from '../../api/withdraw'
+import { getList , automatic, update} from '../../api/withdraw'
 
 
 export default {
@@ -73,19 +73,8 @@ export default {
       startTime: '',//提现开始时间
       endTime: '',//提现结束时间
       loading: false,
-      tableData: [{
-        withdrawalTime: '2021-08-24 12:12:12',
-        username: '13656171020',
-        number: '2021082401',
-        accountType: '支付宝',
-        cashAccount: '13656171020',
-        amount: '1000.00元',
-        tax: '8.00元',
-        serviceCharge: '20.00元',
-        price: '972.00元',
-        state: '申请中',
-        remark: ''
-      }],
+      tableData: [],
+      row: [],//复选框内容
       pagination: {
         page: 1,
         size: 12,
@@ -119,6 +108,24 @@ export default {
       this.searchItems = searchItems
     },
     /**
+     * 拒绝
+     */
+    refuse(){
+      let data = {
+        "state": -1
+      };
+      update(this.row[0].withdrawId, data, this)
+        .then((res) => {
+          if (res.data.code == 1) {
+            this.getDataList();
+            this.$message.success("成功");
+          }
+        })
+        .catch((error) => {
+          this.$message.error(error.response.data.message);
+        });
+    },
+    /**
      * 自动打款
      */
     ifAutomaticMoney() {
@@ -127,16 +134,28 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '操作成功!'
-        })
+        //拼ID逗号分开
+        let data = {
+          "ids": this.row.map(x => x.withdrawId).join(",")
+        };
+        automatic(data, this)
+          .then((res) => {
+            if (res.data.code == 1) {
+              this.getDataList();
+              this.$message.success("操作完成");
+            }
+          })
+          .catch((error) => {
+            this.$message.error(error.response.data.message);
+          });
       })
     },
     /**
      * 手工打款
      */
     ifManualMoney() {
+      this.$refs.child.price = this.row[0].price - this.row[0].taxation - this.row[0].serviceCharge;
+      this.$refs.child.id = this.row[0].withdrawId;
       this.$refs.child.dialogVisible = true
     },
     /**
@@ -184,9 +203,7 @@ export default {
       }
     },
     handleRowChange(selection) {
-      this.row = selection
-      this.invoiceIds = []
-      
+      this.row = selection;
     },
     getDataList(data) {
       this.loading = true;
@@ -196,10 +213,10 @@ export default {
           size: this.pagination.size,
         };
         getList(params,this).then(res => {
-          if (res.code === 1) {
-            this.tableData = res.content
-            this.pagination.total = res.totalElements;
-          } else if (res.code == 0) {
+          if (res.data.code === 1) {
+            this.tableData = res.data.content
+            this.pagination.total = res.data.totalElements;
+          } else if (res.data.code == 0) {
             this.tableData = [];
             this.pagination.total = 0;
           }
@@ -211,10 +228,10 @@ export default {
           size: this.pagination.size,
         };
         getList(params,this).then(res => {
-          if (res.code === 1) {
-            this.tableData = res.content
-            this.pagination.total = res.totalElements;
-          } else if (res.code == 0) {
+          if (res.data.code === 1) {
+            this.tableData = res.data.content
+            this.pagination.total = res.data.totalElements;
+          } else if (res.data.code == 0) {
             this.tableData = [];
             this.pagination.total = 0;
           }
