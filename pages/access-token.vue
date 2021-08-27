@@ -1,11 +1,14 @@
 <template>
+  <div>
+
+  </div>
 </template>
 <script>
 export default {
   name: 'AccessToken',
   methods: {},
   watch: {},
-  created() {
+  mounted(){
     if (this.$route.query.accessToken) {
       localStorage.setItem('accessToken', this.$route.query.accessToken)
     }
@@ -13,6 +16,6 @@ export default {
       this.theme.showHeader  = this.$route.query.showHeader
     }
     this.$router.push(this.$route.query.url)
-  }
+  },
 }
 </script>
