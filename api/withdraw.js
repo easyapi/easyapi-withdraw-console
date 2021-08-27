@@ -3,7 +3,7 @@
  *
  */
 export const getList = (params, context) => {
-  return context.$axios.get(`${process.env.baseUrl}/console/withdraws?appKey=SFB9LGSypeHjWB1O&appSecret=bkosxt7y6szsf210`,
+  return context.$axios.get(`${process.env.baseUrl}/console/withdraws`,
     {
       params: {
         ...params
