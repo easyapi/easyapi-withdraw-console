@@ -33,8 +33,7 @@ import { update } from '../../api/withdraw'
         dialogVisible: false,
         remark: '',
         price: 0,
-        id: '',
-        accessToken: ''
+        id: ''
       }
     },
     methods: {

@@ -95,14 +95,12 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      form: {},
-      accessToken: ''
+      form: {}
     }
   },
   methods: {
     confirm() {
       let data = {
-        accessToken: this.accessToken,
         remark: this.form.remark,
         state: 1,
       }
@@ -127,7 +125,6 @@ export default {
       }).then(() => {
         //拼ID逗号分开
         let data = {
-          accessToken: this.accessToken,
           ids: this.form.withdrawId,
         }
         automatic(data, this)
@@ -148,7 +145,6 @@ export default {
      */
     refuse() {
       let data = {
-        accessToken: this.accessToken,
         state: -1,
       }
       update(this.form.withdrawId, data, this)

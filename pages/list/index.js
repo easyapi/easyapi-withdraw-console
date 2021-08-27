@@ -112,7 +112,6 @@ export default {
      */
     refuse(){
       let data = {
-        accessToken: this.accessToken,
         "state": -1
       };
       update(this.row[0].withdrawId, data, this)
@@ -137,7 +136,6 @@ export default {
       }).then(() => {
         //拼ID逗号分开
         let data = {
-          accessToken: this.accessToken,
           "ids": this.row.map(x => x.withdrawId).join(",")
         };
         automatic(data, this)
@@ -158,7 +156,6 @@ export default {
     ifManualMoney() {
       this.$refs.child.price = this.row[0].price - this.row[0].taxation - this.row[0].serviceCharge;
       this.$refs.child.id = this.row[0].withdrawId;
-      this.$refs.child.accessToken = this.accessToken;
       this.$refs.child.dialogVisible = true;
     },
     /**
@@ -166,7 +163,6 @@ export default {
      */
     showDetails(row) {
       this.$refs.detailsChild.dialogVisible = true;
-      this.$refs.detailsChild.accessToken = this.accessToken;
       this.$refs.detailsChild.form = row;
     },
     /**
@@ -225,7 +221,6 @@ export default {
       this.loading = true;
       if (data === 1) {
         let params = {
-          accessToken: this.accessToken,
           startAddTime:  this.startTime,
           endAddTime:  this.endTime,
           way: this.typeName,
@@ -245,7 +240,6 @@ export default {
         })
       } else {
         let params = {
-          accessToken: this.accessToken,
           startAddTime:  this.startTime,
           endAddTime:  this.endTime,
           way: this.typeName,
@@ -282,6 +276,5 @@ export default {
     this.getDataList();
   },
   created(){
-    this.accessToken = this.$route.query.accessToken;
   }
 }

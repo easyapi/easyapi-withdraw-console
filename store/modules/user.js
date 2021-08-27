@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import { getUser } from '@/api/account'
+// import { getUser } from '@/api/account'
 
 const user = {
   state: {
@@ -61,30 +61,30 @@ const user = {
      * 获取用户信息
      */
     getUserInfo({ commit, state }, context) {
-      getUser(context).then((res) => {
-        if (res.data.code === 1) {
-          let userInfoData = res.data.content
-          commit('SET_ACCOUNT_INFO', userInfoData)
-          commit('SET_USER_ID', userInfoData.id)
-          commit('SET_USERNAME', userInfoData.username)
-          commit('SET_NICKNAME', userInfoData.nickname)
-          commit('SET_PHOTO', userInfoData.photo)
-          commit('SET_MOBILE', userInfoData.mobile)
-          commit('SET_EMAIL', userInfoData.email)
-          //menuIds
-          let menu = ''
-          for (let i in userInfoData.menus) {
-            menu += userInfoData.menus[i].menuId + ','
-          }
-          commit('SET_MENU', menu)
+      // getUser(context).then((res) => {
+      //   if (res.data.code === 1) {
+      //     let userInfoData = res.data.content
+      //     commit('SET_ACCOUNT_INFO', userInfoData)
+      //     commit('SET_USER_ID', userInfoData.id)
+      //     commit('SET_USERNAME', userInfoData.username)
+      //     commit('SET_NICKNAME', userInfoData.nickname)
+      //     commit('SET_PHOTO', userInfoData.photo)
+      //     commit('SET_MOBILE', userInfoData.mobile)
+      //     commit('SET_EMAIL', userInfoData.email)
+      //     //menuIds
+      //     let menu = ''
+      //     for (let i in userInfoData.menus) {
+      //       menu += userInfoData.menus[i].menuId + ','
+      //     }
+      //     commit('SET_MENU', menu)
 
-          commit('SET_DEFAULT_SHOP', userInfoData.shop)
-          commit('SET_TYPE', userInfoData.type)
-          commit('SET_PLATFORM', userInfoData.platform)
-          Cookies.set('userInfo', JSON.stringify(res.data), { expires: 30 })
-          localStorage.setItem('userInfo', JSON.stringify(res.data.content))
-        }
-      })
+      //     commit('SET_DEFAULT_SHOP', userInfoData.shop)
+      //     commit('SET_TYPE', userInfoData.type)
+      //     commit('SET_PLATFORM', userInfoData.platform)
+      //     Cookies.set('userInfo', JSON.stringify(res.data), { expires: 30 })
+      //     localStorage.setItem('userInfo', JSON.stringify(res.data.content))
+      //   }
+      // })
     },
     /**
      * 登出
