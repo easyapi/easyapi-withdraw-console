@@ -10,27 +10,29 @@
           </div>
         </div>
         <div class="main-content mg-tp-20">
-          <SearchArea :items="searchItems" @search="search" @event="event" />
+          <SearchArea :items="searchItems" @search="search" @event="event"/>
         </div>
         <div class="main-content mg-tp-20">
           <div>
             <el-button type="primary" class="buttons" size="mini"
-              @click="refuse"
-              >申请拒绝
+                       @click="refuse" :disabled="disabled"
+            >申请拒绝
             </el-button>
             <el-button
               type="primary"
               class="buttons"
               size="mini"
               @click="ifAutomaticMoney"
-              >自动打款
+              :disabled="autDisabled"
+            >自动打款
             </el-button>
             <el-button
               type="primary"
               class="buttons"
               size="mini"
               @click="ifManualMoney"
-              >手工打款
+              :disabled="disabled"
+            >手工打款
             </el-button>
           </div>
           <el-table
@@ -42,7 +44,7 @@
             highlight-row
             :header-cell-style="{ background: '#F4F4F4' }"
           >
-            <el-table-column type="selection" width="60"> </el-table-column>
+            <el-table-column type="selection" width="60"></el-table-column>
             <el-table-column
               width="160"
               prop="addTime"
@@ -70,10 +72,12 @@
               <template slot-scope="{ row }">
                 <el-tag v-if="row.state == 0">提现中</el-tag>
                 <el-tag type="success" v-else-if="row.state == 1"
-                  >已成功</el-tag
+                >已成功
+                </el-tag
                 >
                 <el-tag type="danger" v-else-if="row.state == -1"
-                  >失败</el-tag
+                >失败
+                </el-tag
                 >
               </template>
             </el-table-column>
@@ -81,7 +85,8 @@
             <el-table-column label="操作">
               <template slot-scope="scope">
                 <el-button type="text" @click="showDetails(scope.row)"
-                  >详情</el-button
+                >详情
+                </el-button
                 >
               </template>
             </el-table-column>
@@ -103,7 +108,7 @@
 </template>
 
 <script>
-import Index from './index'
+  import Index from './index'
 
-export default Index
+  export default Index
 </script>

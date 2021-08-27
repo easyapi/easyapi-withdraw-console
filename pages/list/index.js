@@ -1,12 +1,12 @@
 import './index.scss'
 import Header from '../../components/Header'
 import Aside from '../../components/Aside'
-import pagination from '../../components/Pagination'
+import Pagination from '../../components/Pagination'
 import SearchArea from '../../components/SearchArea'
 import ManualMoney from '../components/ManualMoney'
 import ShowDetails from '../components/showDetails'
 
-import { getList , automatic, update} from '../../api/withdraw'
+import { getList, automatic, update } from '../../api/withdraw'
 
 
 export default {
@@ -16,7 +16,7 @@ export default {
     Header,
     Aside,
     SearchArea,
-    pagination,
+    Pagination,
     ManualMoney
   },
   head() {
@@ -79,7 +79,9 @@ export default {
         page: 1,
         size: 12,
         total: 0
-      }
+      },
+      disabled: true,
+      autDisabled: true
     }
   },
   methods: {
@@ -110,20 +112,20 @@ export default {
     /**
      * 拒绝
      */
-    refuse(){
+    refuse() {
       let data = {
-        "state": -1
-      };
+        'state': -1
+      }
       update(this.row[0].withdrawId, data, this)
         .then((res) => {
           if (res.data.code == 1) {
-            this.getDataList();
-            this.$message.success("成功");
+            this.getDataList()
+            this.$message.success('成功')
           }
         })
         .catch((error) => {
-          this.$message.error(error.response.data.message);
-        });
+          this.$message.error(error.response.data.message)
+        })
     },
     /**
      * 自动打款
@@ -136,34 +138,34 @@ export default {
       }).then(() => {
         //拼ID逗号分开
         let data = {
-          "ids": this.row.map(x => x.withdrawId).join(",")
-        };
+          'ids': this.row.map(x => x.withdrawId).join(',')
+        }
         automatic(data, this)
           .then((res) => {
             if (res.data.code == 1) {
-              this.getDataList();
-              this.$message.success("操作完成");
+              this.getDataList()
+              this.$message.success('操作完成')
             }
           })
           .catch((error) => {
-            this.$message.error(error.response.data.message);
-          });
+            this.$message.error(error.response.data.message)
+          })
       })
     },
     /**
      * 手工打款
      */
     ifManualMoney() {
-      this.$refs.child.price = this.row[0].price - this.row[0].taxation - this.row[0].serviceCharge;
-      this.$refs.child.id = this.row[0].withdrawId;
-      this.$refs.child.dialogVisible = true;
+      this.$refs.child.price = this.row[0].price - this.row[0].taxation - this.row[0].serviceCharge
+      this.$refs.child.id = this.row[0].withdrawId
+      this.$refs.child.dialogVisible = true
     },
     /**
      * 详情
      */
     showDetails(row) {
-      this.$refs.detailsChild.dialogVisible = true;
-      this.$refs.detailsChild.form = row;
+      this.$refs.detailsChild.dialogVisible = true
+      this.$refs.detailsChild.form = row
     },
     /**
      * 搜索
@@ -174,13 +176,13 @@ export default {
         accountType,
         state
       } = item
-      this.typeName = accountType;
-      if(state == '提现中'){
-        this.stateName = 0;
-      }else if(state == '提现成功'){
-        this.stateName = 1;
-      }else if(state == '提现失败'){
-        this.stateName = -1;
+      this.typeName = accountType
+      if (state == '提现中') {
+        this.stateName = 0
+      } else if (state == '提现成功') {
+        this.stateName = 1
+      } else if (state == '提现失败') {
+        this.stateName = -1
       }
       if (withdrawalTime.length !== 0 && withdrawalTime[0] !== '') {
         this.startTime = withdrawalTime[0] + ' ' + '00:00:00'
@@ -189,8 +191,8 @@ export default {
         this.startTime = ''
         this.endTime = ''
       }
-      
-      this.getDataList(1);
+
+      this.getDataList(1)
     },
     event(item) {
       let {
@@ -199,12 +201,12 @@ export default {
         state
       } = item
       this.typeName = accountType
-      if(state == '提现中'){
-        this.stateName = 0;
-      }else if(state == '提现成功'){
-        this.stateName = 1;
-      }else if(state == '提现失败'){
-        this.stateName = -1;
+      if (state == '提现中') {
+        this.stateName = 0
+      } else if (state == '提现成功') {
+        this.stateName = 1
+      } else if (state == '提现失败') {
+        this.stateName = -1
       }
       if (withdrawalTime.length !== 0 && withdrawalTime[0] !== '') {
         this.startTime = withdrawalTime[0] + ' ' + '00:00:00'
@@ -215,66 +217,77 @@ export default {
       }
     },
     handleRowChange(selection) {
-      this.row = selection;
+      console.log(selection)
+      if (selection.length = 1) {
+        this.disabled = false
+        this.autDisabled = false
+      } else if (selection.length = 0) {
+        this.disabled = true
+        this.autDisabled = true
+      } else {
+        this.disabled = true
+        this.autDisabled = false
+      }
     },
     getDataList(data) {
-      this.loading = true;
+      this.loading = true
       if (data === 1) {
         let params = {
-          startAddTime:  this.startTime,
-          endAddTime:  this.endTime,
+          startAddTime: this.startTime,
+          endAddTime: this.endTime,
           way: this.typeName,
           state: this.stateName,
           page: 0,
-          size: this.pagination.size,
-        };
-        getList(params,this).then(res => {
+          size: this.pagination.size
+        }
+        getList(params, this).then(res => {
           if (res.data.code === 1) {
             this.tableData = res.data.content
-            this.pagination.total = res.data.totalElements;
+            this.pagination.total = res.data.totalElements
           } else if (res.data.code == 0) {
-            this.tableData = [];
-            this.pagination.total = 0;
+            this.tableData = []
+            this.pagination.total = 0
           }
-          this.loading = false;
+          this.loading = false
         })
       } else {
         let params = {
-          startAddTime:  this.startTime,
-          endAddTime:  this.endTime,
+          accessToken: 'mn30z1z3kunv4b95o1734jj8cs4h0i2k',
+          startAddTime: this.startTime,
+          endAddTime: this.endTime,
           way: this.typeName,
           state: this.stateName,
           page: this.pagination.page - 1,
-          size: this.pagination.size,
-        };
-        getList(params,this).then(res => {
+          size: this.pagination.size
+        }
+        getList(params, this).then(res => {
           if (res.data.code === 1) {
             this.tableData = res.data.content
-            this.pagination.total = res.data.totalElements;
+            this.pagination.total = res.data.totalElements
           } else if (res.data.code == 0) {
-            this.tableData = [];
-            this.pagination.total = 0;
+            this.tableData = []
+            this.pagination.total = 0
           }
-          this.loading = false;
+          this.loading = false
         })
       }
     },
     //分页
     fatherSize(data) {
-      this.pagination.size = data;
-      this.getDataList();
+      this.pagination.size = data
+      this.getDataList()
     },
     fatherCurrent(data) {
-      this.pagination.page = data;
-      this.getDataList();
-    },
+      this.pagination.page = data
+      this.getDataList()
+    }
   },
   mounted() {
-    this.showHeader = this.theme.showHeader;
-    this.getAccountType();
-    this.getState();
-    this.getDataList();
+    this.showHeader = this.theme.showHeader
+    this.getAccountType()
+    this.getState()
+    this.getDataList()
   },
-  created(){
+  created() {
   }
 }
