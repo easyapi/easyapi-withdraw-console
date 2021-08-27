@@ -1,7 +1,6 @@
 import './index.scss'
 import Header from '../../components/Header'
 import Aside from '../../components/Aside'
-import { getFeedbackConfigs } from '../../api/feedback'
 
 export default {
   name: 'index',
@@ -33,13 +32,7 @@ export default {
     }
   },
   methods: {
-    //接口示例
-    getFeedbackConfigs() {
-      let params = {}
-      getFeedbackConfigs(params, this).then(res => {
 
-      })
-    }
   },
   mounted() {
     this.showHeader = this.theme.showHeader
