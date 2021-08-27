@@ -1,7 +1,7 @@
-# EasyAPI发票服务[https://fapiao.easyapi.com](https://fapiao.easyapi.com)
+# EasyAPI快速提现[https://withdraw.easyapi.com](https://withdraw.easyapi.com)
 
 ## 项目介绍
-EasyAPI发票服务控制台
+EasyAPI快速提现控制台
 
 ## 相关技术和第三方库
 * [Nuxt](https://zh.nuxtjs.org)
