@@ -217,11 +217,11 @@ export default {
       }
     },
     handleRowChange(selection) {
-      console.log(selection)
-      if (selection.length = 1) {
+      this.row = selection;
+      if (selection.length == 1) {
         this.disabled = false
         this.autDisabled = false
-      } else if (selection.length = 0) {
+      } else if (selection.length == 0) {
         this.disabled = true
         this.autDisabled = true
       } else {
@@ -252,7 +252,6 @@ export default {
         })
       } else {
         let params = {
-          accessToken: 'mn30z1z3kunv4b95o1734jj8cs4h0i2k',
           startAddTime: this.startTime,
           endAddTime: this.endTime,
           way: this.typeName,
