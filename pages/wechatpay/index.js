@@ -6,23 +6,33 @@ export default {
   name: 'index',
   components: {
     Header,
-    Aside
+    Aside,
   },
   head() {
     return {
-      title: '微信设置 - EasyAPI快速提现'
+      title: '微信设置 - EasyAPI快速提现',
     }
   },
   data() {
     return {
       showHeader: '',
+      showSidebar: '',
       form: {
         wechatpay: true,
-        radio: 'automaticWithdrawal'
-      }
+        radio: 'automaticWithdrawal',
+      },
     }
   },
   mounted() {
-    this.showHeader = this.theme.showHeader
-  }
+    if (this.$store.state.settings.showHeader == 'true') {
+      this.showHeader = true
+    } else {
+      this.showHeader = false
+    }
+    if (this.$store.state.settings.showSidebar == 'true') {
+      this.showSidebar = true
+    } else {
+      this.showSidebar = false
+    }
+  },
 }

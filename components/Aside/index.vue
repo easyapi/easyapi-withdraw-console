@@ -1,44 +1,43 @@
 <template>
-  <div class='sidebar'>
-    <div v-for='(menu, index) in menuList' :key='index'>
-      <p v-if='menuType == 1 || menuType == 2' class='title'>
+  <div v-if="showSidebar" class="sidebar">
+    <div v-for="(menu, index) in menuList" :key="index">
+      <p v-if="menuType == 1 || menuType == 2" class="title">
         {{ menu.title }}
       </p>
-      <div v-for='(item, index) in menu.children' :key='index'>
-        <div class='menu' v-if='menuType == 0 || menuType == 1'>
+      <div v-for="(item, index) in menu.children" :key="index">
+        <div class="menu" v-if="menuType == 0 || menuType == 1">
           <nuxt-link
-            :key='index'
-            :to='item.path'
+            :key="index"
+            :to="item.path"
             :class="activePath === item.path ? 'menu-item_active' : 'menu-item'"
           >
-            <i :class='item.icon'></i>
+            <i :class="item.icon"></i>
             <span>{{ item.title }}</span>
           </nuxt-link>
         </div>
 
-        <div v-if='menuType == 2'>
+        <div v-if="menuType == 2">
           <el-menu
-            default-active='2'
-            class='el-menu-vertical-demo'
-            @select='handleSelectMenu'
+            default-active="2"
+            class="el-menu-vertical-demo"
+            @select="handleSelectMenu"
           >
-            <el-menu-item :index='item.path' v-if='item.children.length == 0'>
-              <i :class='item.icon'></i>
+            <el-menu-item :index="item.path" v-if="item.children.length == 0">
+              <i :class="item.icon"></i>
               <span>{{ item.title }}</span>
             </el-menu-item>
-            <el-submenu v-if='item.children.length > 0'>
-              <template slot='title'>
-                <i :class='item.icon'></i>
+            <el-submenu v-if="item.children.length > 0">
+              <template slot="title">
+                <i :class="item.icon"></i>
                 <span>{{ item.title }}</span>
               </template>
               <el-menu-item-group>
                 <el-menu-item
-                  :index='a.path'
-                  v-for='(a, idx) in item.children'
-                  :key='idx'
-                >{{ a.title }}
-                </el-menu-item
-                >
+                  :index="a.path"
+                  v-for="(a, idx) in item.children"
+                  :key="idx"
+                  >{{ a.title }}
+                </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
           </el-menu>
@@ -57,23 +56,29 @@ export default {
     return {
       activePath: '',
       menuType: null,
-      menuList: routers
+      menuList: routers,
+      showSidebar: '',
     }
   },
   methods: {
     handleSelectMenu(key, keyPath) {
       let path = keyPath[0]
       this.$router.push({ path: path })
-    }
+    },
   },
   mounted() {
+    if (this.$store.state.settings.showSidebar == 'true') {
+      this.showSidebar = true
+    } else {
+      this.showSidebar = false
+    }
     this.activePath = this.$route.path ? `${this.$route.path}` : '/summary'
-    this.menuType = this.theme.menuType
-  }
+    this.menuType = this.$store.state.settings.menuType
+  },
 }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .sidebar {
   position: absolute;
   top: $-sidebar-top + px;

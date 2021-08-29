@@ -3,7 +3,7 @@
     <Header></Header>
     <div :class="showHeader ? 'content' : 'contents'">
       <Aside></Aside>
-      <div class='main'>
+      <div :class="showSidebar ? 'main' : 'main-left main'" >
         <div class='main-title'>
           <div class='main-title_top'>
             <b>银行卡设置</b>

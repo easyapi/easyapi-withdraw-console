@@ -1,15 +1,15 @@
 <template>
-  <div class='container'>
+  <div class="container">
     <Header></Header>
     <div :class="showHeader ? 'content' : 'contents'">
       <Aside></Aside>
-      <div class='main'>
-        <div class='main-title'>
-          <div class='main-title_top'>
+      <div :class="showSidebar ? 'main' : 'main-left main'">
+        <div class="main-title">
+          <div class="main-title_top">
             <b>概要统计</b>
           </div>
         </div>
-        <div class='mg-tp-20'>
+        <div class="mg-tp-20">
           <div class="summary-top">
             <div class="summary-top-item">
               <div class="item">
@@ -60,9 +60,8 @@
             </div>
           </div>
         </div>
-        <div class='main-content mg-tp-20'>
-          <div id="RecentlyChart" class="chart">
-          </div>
+        <div class="main-content mg-tp-20">
+          <div id="RecentlyChart" class="chart"></div>
         </div>
       </div>
     </div>
@@ -70,7 +69,7 @@
 </template>
 
 <script>
-  import Index from './index'
+import Index from './index'
 
-  export default Index
+export default Index
 </script>

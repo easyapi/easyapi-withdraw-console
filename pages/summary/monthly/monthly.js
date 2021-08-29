@@ -9,11 +9,12 @@ export default {
   components: {
     Header,
     Aside,
-    Pagination
+    Pagination,
   },
   data() {
     return {
       showHeader: '',
+      showSidebar: '',
       activeName: 'monthly',
       loading: false,
       summaryData: [],
@@ -21,9 +22,9 @@ export default {
       pagination: {
         page: 1,
         size: 12,
-        total: 0
+        total: 0,
       },
-      dataTime: ''
+      dataTime: '',
     }
   },
   head() {
@@ -33,10 +34,10 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: '月汇总'
+          content: '月汇总',
         },
-        { hid: 'keyword', name: 'keyword', content: '每月统计' }
-      ]
+        { hid: 'keyword', name: 'keyword', content: '每月统计' },
+      ],
     }
   },
   methods: {
@@ -83,8 +84,8 @@ export default {
         path: '/withdraws/list',
         query: {
           startTime: row.startTime,
-          endTime: row.endTime
-        }
+          endTime: row.endTime,
+        },
       })
     },
     //分页
@@ -99,18 +100,27 @@ export default {
     changeTab(item) {
       if (item.name === 'withdraws/summary') {
         this.$router.push({
-          path: 'withdraws/summary'
+          path: 'withdraws/summary',
         })
       } else {
         this.$router.push({
-          path: item.name
+          path: item.name,
         })
       }
-    }
+    },
   },
   mounted() {
     this.nowTimes()
     // this.getSummariesList()
-    this.showHeader = this.theme.showHeader
-  }
+    if (this.$store.state.settings.showHeader == 'true') {
+      this.showHeader = true
+    } else {
+      this.showHeader = false
+    }
+    if (this.$store.state.settings.showSidebar == 'true') {
+      this.showSidebar = true
+    } else {
+      this.showSidebar = false
+    }
+  },
 }

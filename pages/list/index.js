@@ -8,7 +8,6 @@ import ShowDetails from '../components/showDetails'
 
 import { getList, automatic, update } from '../../api/withdraw'
 
-
 export default {
   name: 'index',
   components: {
@@ -17,7 +16,7 @@ export default {
     Aside,
     SearchArea,
     Pagination,
-    ManualMoney
+    ManualMoney,
   },
   head() {
     return {
@@ -26,62 +25,68 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: '服务市场场景化服务'
+          content: '服务市场场景化服务',
         },
-        { hid: 'keyword', name: 'keyword', content: '服务市场场景化服务' }
-      ]
+        { hid: 'keyword', name: 'keyword', content: '服务市场场景化服务' },
+      ],
     }
   },
   data() {
     return {
       showHeader: '',
+      showSidebar: '',
       searchItems: [
-        { label: '提现时间', type: 'datePicker', pickerType: 'daterange', key: 'withdrawalTime' },
+        {
+          label: '提现时间',
+          type: 'datePicker',
+          pickerType: 'daterange',
+          key: 'withdrawalTime',
+        },
         { label: '账号类型', type: 'select', key: 'accountType' },
-        { label: '状态', type: 'select', key: 'state' }
+        { label: '状态', type: 'select', key: 'state' },
       ],
       accountType: [
         {
           value: '支付宝',
-          label: '支付宝'
+          label: '支付宝',
         },
         {
           value: '微信',
-          label: '微信'
+          label: '微信',
         },
         {
           value: '银行卡',
-          label: '银行卡'
-        }
+          label: '银行卡',
+        },
       ],
-      typeName: '',//账号类型名字
+      typeName: '', //账号类型名字
       state: [
         {
           value: '提现中',
-          label: '提现中'
+          label: '提现中',
         },
         {
           value: '提现成功',
-          label: '提现成功'
+          label: '提现成功',
         },
         {
           value: '提现失败',
-          label: '提现失败'
-        }
+          label: '提现失败',
+        },
       ],
-      stateName: '',//状态名称
-      startTime: '',//提现开始时间
-      endTime: '',//提现结束时间
+      stateName: '', //状态名称
+      startTime: '', //提现开始时间
+      endTime: '', //提现结束时间
       loading: false,
       tableData: [],
-      row: [],//复选框内容
+      row: [], //复选框内容
       pagination: {
         page: 1,
         size: 12,
-        total: 0
+        total: 0,
       },
       disabled: true,
-      autDisabled: true
+      autDisabled: true,
     }
   },
   methods: {
@@ -90,7 +95,7 @@ export default {
      */
     getAccountType() {
       let searchItems = JSON.parse(JSON.stringify(this.searchItems))
-      searchItems.forEach(item => {
+      searchItems.forEach((item) => {
         if (item.key === 'accountType') {
           item.selectItems = this.accountType
         }
@@ -102,7 +107,7 @@ export default {
      */
     getState() {
       let searchItems = JSON.parse(JSON.stringify(this.searchItems))
-      searchItems.forEach(item => {
+      searchItems.forEach((item) => {
         if (item.key === 'state') {
           item.selectItems = this.state
         }
@@ -114,7 +119,7 @@ export default {
      */
     refuse() {
       let data = {
-        'state': -1
+        state: -1,
       }
       update(this.row[0].withdrawId, data, this)
         .then((res) => {
@@ -134,11 +139,11 @@ export default {
       this.$confirm('是否确定自动打款, 确认后无法更改。', '自动打款', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
       }).then(() => {
         //拼ID逗号分开
         let data = {
-          'ids': this.row.map(x => x.withdrawId).join(',')
+          ids: this.row.map((x) => x.withdrawId).join(','),
         }
         automatic(data, this)
           .then((res) => {
@@ -156,7 +161,8 @@ export default {
      * 手工打款
      */
     ifManualMoney() {
-      this.$refs.child.price = this.row[0].price - this.row[0].taxation - this.row[0].serviceCharge
+      this.$refs.child.price =
+        this.row[0].price - this.row[0].taxation - this.row[0].serviceCharge
       this.$refs.child.id = this.row[0].withdrawId
       this.$refs.child.dialogVisible = true
     },
@@ -171,11 +177,7 @@ export default {
      * 搜索
      */
     search(item) {
-      let {
-        withdrawalTime = [],
-        accountType,
-        state
-      } = item
+      let { withdrawalTime = [], accountType, state } = item
       this.typeName = accountType
       if (state == '提现中') {
         this.stateName = 0
@@ -195,11 +197,7 @@ export default {
       this.getDataList(1)
     },
     event(item) {
-      let {
-        withdrawalTime = [],
-        accountType,
-        state
-      } = item
+      let { withdrawalTime = [], accountType, state } = item
       this.typeName = accountType
       if (state == '提现中') {
         this.stateName = 0
@@ -217,7 +215,7 @@ export default {
       }
     },
     handleRowChange(selection) {
-      this.row = selection;
+      this.row = selection
       if (selection.length == 1) {
         this.disabled = false
         this.autDisabled = false
@@ -238,9 +236,9 @@ export default {
           way: this.typeName,
           state: this.stateName,
           page: 0,
-          size: this.pagination.size
+          size: this.pagination.size,
         }
-        getList(params, this).then(res => {
+        getList(params, this).then((res) => {
           if (res.data.code === 1) {
             this.tableData = res.data.content
             this.pagination.total = res.data.totalElements
@@ -257,9 +255,9 @@ export default {
           way: this.typeName,
           state: this.stateName,
           page: this.pagination.page - 1,
-          size: this.pagination.size
+          size: this.pagination.size,
         }
-        getList(params, this).then(res => {
+        getList(params, this).then((res) => {
           if (res.data.code === 1) {
             this.tableData = res.data.content
             this.pagination.total = res.data.totalElements
@@ -279,14 +277,22 @@ export default {
     fatherCurrent(data) {
       this.pagination.page = data
       this.getDataList()
-    }
+    },
   },
   mounted() {
-    this.showHeader = this.theme.showHeader
+    if (this.$store.state.settings.showHeader == 'true') {
+      this.showHeader = true
+    } else {
+      this.showHeader = false
+    }
+    if (this.$store.state.settings.showSidebar == 'true') {
+      this.showSidebar = true
+    } else {
+      this.showSidebar = false
+    }
     this.getAccountType()
     this.getState()
     this.getDataList()
   },
-  created() {
-  }
+  created() {},
 }
