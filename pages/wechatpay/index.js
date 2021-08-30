@@ -6,11 +6,11 @@ export default {
   name: 'index',
   components: {
     Header,
-    Aside,
+    Aside
   },
   head() {
     return {
-      title: '微信设置 - EasyAPI快速提现',
+      title: '微信设置 - EasyAPI快速提现'
     }
   },
   data() {
@@ -19,8 +19,8 @@ export default {
       showSidebar: '',
       form: {
         wechatpay: true,
-        radio: 'automaticWithdrawal',
-      },
+        radio: 'automaticWithdrawal'
+      }
     }
   },
   mounted() {
@@ -34,5 +34,5 @@ export default {
     } else {
       this.showSidebar = false
     }
-  },
+  }
 }

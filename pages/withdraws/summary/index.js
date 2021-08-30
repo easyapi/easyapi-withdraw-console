@@ -12,11 +12,7 @@ export default {
     return {
       title: '概要统计 - EasyAPI快速提现',
       meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: '每日统计',
-        },
+        { hid: 'description', name: 'description', content: '每日统计', },
         { hid: 'keyword', name: 'keyword', content: '每日统计' },
       ],
     }
